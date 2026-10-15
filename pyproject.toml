@@ -1,0 +1,34 @@
+[project]
+name = "audio-fidelity-mcp"
+version = "1.0.0"
+description = "MCP server comparing processed audio against a reference: PEAQ (ODG), ViSQOL (MOS-LQO) and a POLQA wrapper — headless over stdio, zero-setup via uv."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "GPL-3.0-or-later"
+keywords = ["mcp", "audio", "peaq", "visqol", "polqa", "mos", "odg", "perceptual", "quality"]
+dependencies = [
+    "mcp>=1.2,<2",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "soundfile>=0.12.1",
+    "pyloudnorm>=0.1.1",
+    "visqol-python[lattice]>=3.8",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.4",
+    "pytest>=7.0",
+]
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

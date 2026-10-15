@@ -1,0 +1,35 @@
+Bundled third-party components
+==============================
+vendor/peaqb/  — "peaqb" (PEAQ Basic, ITU-R BS.1387-1) by Giuseppe Gottardi, with the speed
+                 patch by Akinori Ito (peaqb-fast), + FFTW 2.x (MIT/GPL). License: GNU GPL v2
+                 (text in vendor/peaqb/COPYING). Full source code is included in this package.
+bin/peaqb-*    — binaries compiled from vendor/peaqb with `build_binaries.py`.
+
+Changes made by this package over the original source:
+  1. src/peaqb.c: FFTW_MEASURE -> FFTW_ESTIMATE (removes ~11 s of benchmark per run;
+     final ODG verified identical to 6 digits in the tests performed).
+  2. src/peaqb.c: fopen(...,"r") -> "rb" for the WAVs (required on Windows).
+  3. fftw/malloc.c: do not include <malloc.h> on macOS.
+  4. Removed build artifacts (.o/.lo/Makefile) and fftw/fftwf77.c (Fortran wrapper).
+
+audio_fidelity_mcp.py (the MCP server) executes peaqb as a separate process.
+If you redistribute this package, keep this NOTICE, the COPYING and the source in vendor/.
+(This is not legal advice.)
+
+Pip dependencies (installed by `uv` on the client, NOT bundled in this package)
+================================================================================
+visqol-python 3.8.0 — Apache-2.0 — github.com/talker93/visqol-python
+    Pure-Python reimplementation of ViSQOL v3 (Google). Models (audio SVR, speech TFLite
+    lattice) ship inside the wheel. Parity verified against the official C++ (speequal)
+    in this package: identical files 4.7266 (speech) / 4.7321 (audio) match; MP3-24k
+    3.2048 matches.
+ai-edge-litert  — Apache-2.0 — TFLite runtime used by the lattice mapping (speech mode).
+libsvm-official — BSD-3-Clause — SVR used by the audio-mode mapping.
+mcp, numpy, scipy, soundfile, pyloudnorm — respective licenses (MIT/BSD/Apache/BSD).
+
+POLQA (ITU-T P.863)
+===================
+NOT bundled: the reference code is proprietary (OPTICOM / ITU-T, commercial license).
+The server only executes a binary the user has licensed, pointed to by POLQA_BIN
+(and optionally POLQA_ARGS with placeholders {ref} {deg} {out}). No P.863 code is
+included in this package, and the integration was never tested against the real binary.
